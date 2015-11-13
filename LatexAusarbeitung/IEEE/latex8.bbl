@@ -1,0 +1,47 @@
+\begin{thebibliography}{1}\setlength{\itemsep}{-1ex}\small
+
+\bibitem{Hirschmueller.2008}
+I.~Ernst and H.~Hirschmüller.
+\newblock Mutual information based semi-global stereo matching on the gpu.
+\newblock In {\em International Symposium on Visual Computing (ISVC08)},
+  December 2008.
+
+\bibitem{Hirschmuller.2005}
+H.~Hirschm{\"u}ller.
+\newblock {\em Accurate and Efficient Processing by Semi-Global Matching and
+  Mutal Information}.
+\newblock Wessling, 2005.
+
+\bibitem{Yang.2002}
+G.~B. R.~Yang, G.~Welch.
+\newblock Real-time consensus- based scene reconstruction using commodity
+  graphics hardware.
+\newblock In {\em Computer Graphics and Applications, 2002. Proceedings. 10th
+  Pacific Conference}, pages 225--234, 2002.
+
+\bibitem{Rosenberg.2006}
+I.~D. Rosenberg, P.~L. Davidson, C.~M.~R. Muller, and J.~Y. Han.
+\newblock Real-time stereo vision using semi-global matching on programmable
+  graphics hardware.
+\newblock In {\em ACM SIGGRAPH 2006 Sketches}, SIGGRAPH '06, New York, NY, USA,
+  2006. ACM.
+
+\bibitem{Schreer.2005}
+O.~Schreer.
+\newblock {\em Stereoanalyse und Bildsynthese}.
+\newblock {Springer Berlin Heidelberg}, 2005.
+
+\bibitem{Hartley.2003}
+H.~R. und A.~Zisserman.
+\newblock {\em Multiple view geometry in computer vision}.
+\newblock {Cambridge University Press}, Cambridge, UK and New York, 2nd ed.
+  edition, 2003.
+
+\bibitem{Woetzel.2004}
+J.~Woetzel and R.~Koch.
+\newblock Real-time multi-stereo depth estimation on gpu with approximative
+  discontinuity handling.
+\newblock In {\em 1st European Conference on Visual Media Production}, March
+  2004.
+
+\end{thebibliography}

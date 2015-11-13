@@ -1,0 +1,11 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: latex8.aux
+The style file: latex8.bst
+Database file #1: latex8.bib
+I was expecting a `,' or a `}'---line 27 of file latex8.bib
+ :    
+ :    address = {Las Vegas, USA}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--can't use both author and editor fields in Hirschmuller.2005
+Warning--empty publisher in Hirschmuller.2005
+(There was 1 error message)
