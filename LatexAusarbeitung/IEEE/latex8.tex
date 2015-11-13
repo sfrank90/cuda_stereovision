@@ -33,6 +33,7 @@
 \author{Eric Buschermöhle, Sven Frank, Timo Janssen\\
 Technische Universität Braunschweig \\  38106 Braunschweig, Deutschland\\
 e.buschermoehle@tu-bs.de\\
+sven.frank90@gmail.com\\
 }
 
 
@@ -99,6 +100,20 @@ Die Verteilung von Stereoalgorithmen wird vor allem in der}
 
 %------------------------------------------------------------------------- 
 \Section{Ansatz}
+ \textbf{Graphics Processing Unit}
+ 
+Der Grafikprozessor ist eine auf Berechnung von Grafiken spezialisierter und optimierter Prozessor in einem Computer oder einem anderen Gerät mit visueller Ausgabe.
+Der Cache-Speicher der GPU (Graphic Processing Unit) ist im Gegensatz der CPU erheblich kleiner dimensioniert. Zudem existiert kein Raum für komplexe Logik. Grundsätzlich ist die Recheneinheit der Grafikkarte so aufgebaut, dass möglichst viele eher einfach Rechenoperationen parallel möglich sind.
+Diese Algorithmic Logic Units (ALU) sind wie in Abbildung \ref{fig:gpu} dargestellt in wesentlich höhrerer Anzahl auf der GPU vorhanden. Sie lassen sich wiederum jeweils in eine bestimmte Anzahl an Blöcke unterteilen, wobei jeder Block selbst mehrere Threads aufrufen kann. Durch 
+
+ \begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{image/cuda.jpg}
+	\captionof{figure}[Ansatz]{Aufbau von CPU und GPU im Vergleich}
+	\label{fig:gpu}
+\end{figure}
+
+\textbf{Idee}
 
 In dieser Arbeit geht es zunächst daraum die Berechnung der Tiefenkarte von der CPU auf die GPU auszulagern. Dazu soll eine entsprechende Programmiertechnik verwendet werden, um die notwendigen auf den Grafikspeicher zu transferieren. Im zweiten Schritt soll die Berechnung möglichst gut optimiert werden. Hierbei soll die Rechenzeit durch weitere Parallelisierung reduziert werden.
 Als letzte Möglichkeit zur Reduzierung der Zeit, soll eine Client-Sever Anwendung entwickelt werden. Dadurch soll die Berechnung auf mehrere Grafikkarten auf verschiedenen Rechnern über das Netzwerk aufgeteilt werden. Dafür soll das Bild in einzelne Segmente unterteilt werden und über das Netzwerk zur Berechnung an die verschiedenen Computer gesendet werden. Im Anschluss werden die einzelnen berechneten Segmente der Tiefenkarte zu einer gesamten Tiefenkarte zusammengefügt.
@@ -123,6 +138,14 @@ Bei Sockets handelt es sich um ein vom Betriebssytem bereitgestelltes Objekt, we
 Ein bekanntes und im Zuge dieser Arbeit verwendetes Modell nutzt TCP/IP zur Kommunikation. Dabei sorgt das Transmission Control Protocol für eine zuverlässige Übertragung der Daten auf Basis vom Internet Protocol (IP). Die Übermittlung der Pakete ist dabei garantiert. Sollte ein Fehler auftreten, so erhält der Sender eine Fehlermeldung und kann die Daten erneut senden. Grundsätzlich entspricht die Reihenfolge der eingehenden Pakete der Sendereihenfolge.
 Die Verbindung zwischen zwei Kommunikationspartnern wird bei diesem Mechanismus durch die IP-Adressen und eine gemeinsame Portnummer hergestellt.
 
+
+ \begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{image/ip-tcp.jpg}
+	\captionof{figure}[Parallelisierung]{Kommunikationschema von TCP/IP}
+	\label{fig:gpu}
+\end{figure}
+
 \textbf{Client-Server Anwendung}
 
 TODO: Beschreibung der Implementierung
@@ -142,10 +165,37 @@ Fenstergröße: 7x7 Pixel
 Taumax: 40
 
 Die Durchführung des Versuches ergab die in Tabelle 1 dargestellten Ergebnisse.
+\begin{table}
+\begin{tabular}{|c|c|}
+\hline
+ \textbf{Testfall} & \textbf{Berechnungszeit in ms} \\
+\hline
+ Host CPU & 4584.93 \\
+\hline
+ Host GPU & 620.89  \\
+\hline
+ 1x GPUs via TCP & 620.89  \\
+\hline
+ 2x GPUs via TCP & 357.54  \\
+ \hline
+ 3x GPUs via TCP & 265.82  \\
+ \hline
+ 4x GPUs via TCP & 223.48  \\
+ \hline
+ 5x GPUs via TCP & 188.43  \\
+ \hline
+ 6x GPUs via TCP & 170.20  \\
+ \hline
+ 7x GPUs via TCP & 165.99  \\
+ \hline
+ 8x GPUs via TCP & 164.08  \\
+ \hline
+\end{tabular}
+\caption{Messwerte des Versuchs}
+\label{tab:messwerte}
+\end{table}
 
-\textbf{TABELLE}
-
-Die Tabelle <<NR>> zeigt deutlich, dass die GPU wesentlich besser geeignet ist, um Grafikoperationen zu erledigen. Die Zeit für die Berechung der Tiefenkarte konnte auf der GPU im Vergleich zu CPU um etwas 85\% des Ausgangswertes reduziert werden. Teilt man diese Berechung nun auf mehrere GPUs über das Netzwerk auf, so stellt man fest, dass bis zu einer Verwendung von 6 GPUs die Rechenzeit noch erheblich sinkt. In fügt man nun weitere GPUs hinzu, so konvergiert die Rechenzeit irgendwann gegen einen bestimmten Wert. Bereits bei einer Erhöhung von 7 auf 8 GPUs erkennt man schon kaum eine wirkliche Reduzierung.
+Die Tabelle \ref{tab:messwerte} zeigt deutlich, dass die GPU wesentlich besser geeignet ist, um Grafikoperationen zu erledigen. Die Zeit für die Berechung der Tiefenkarte konnte auf der GPU im Vergleich zu CPU um etwas 85\% des Ausgangswertes reduziert werden. Teilt man diese Berechung nun auf mehrere GPUs über das Netzwerk auf, so stellt man fest, dass bis zu einer Verwendung von 6 GPUs die Rechenzeit noch erheblich sinkt. In fügt man nun weitere GPUs hinzu, so konvergiert die Rechenzeit irgendwann gegen einen bestimmten Wert. Bereits bei einer Erhöhung von 7 auf 8 GPUs erkennt man schon kaum eine wirkliche Reduzierung.
 
 %------------------------------------------------------------------------- 
 \Section{Zusammenfassung}
