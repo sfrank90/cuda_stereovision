@@ -55,12 +55,12 @@ sven.frank90@gmail.com\\
 %------------------------------------------------------------------------- 
 \Section{Einführung}
 
-Zum Auffinden von korrespondierenden Punkten in einem Stereobildpaar werden verschiedene Stereoanalyseverfahren eingesetzt. Mit Hilfe der gefunden Korrespondenzen und den intrinsischen sowie extrinsischen Parameter des Stereokamerasystems ist es möglich mit Triangulation eine Szene 3D rekonstruieren. Stereoanalyseverfahren finden Einsatz im Industriellen Umfeld z.B. im Bereich der Qualitätssicherung. Aber auch Anwendungsfelder in der Robotik und Automobilindustrie z.B. zur Hinderniserkennung  sind potentielle Anwendungsbereiche. Neben einer möglichst dichten und genauen Tiefenkarte spielen Laufzeitaspekte eine entscheidende Rolle. In dieser Arbeit wird das Laufzeitverhalten anhand einer Korrelationsmethode exemplarisch untersucht. Es werden insgesamt zwei Möglichkeiten zur Beschleunigung des Verfahrens vorgestellt. In einem ersten Schritt erfolgt die Parallelisierung auf der GPU (Graphics Processing Unit) mit der von Nvidia entwickelten Programmier-Technik CUDA. In einem zweiten Schritt erfolgt die Verteilung der Anwendung auf über TCP verbundene Clients. Zu diesem Zweck werden einfache TCP-Sockets eingesetzt. {\color{red}{Quelle}}
+Zum Auffinden von korrespondierenden Punkten in einem Stereobildpaar werden verschiedene Stereoanalyseverfahren eingesetzt. Mit Hilfe der gefunden Korrespondenzen und den intrinsischen sowie extrinsischen Parameter des Stereokamerasystems ist es möglich mit Triangulation eine Szene 3D rekonstruieren. Stereoanalyseverfahren finden Einsatz im industriellen Umfeld z.B. im Bereich der Qualitätssicherung. Aber auch Anwendungsfelder in der Robotik und Automobilindustrie z.B. zur Hinderniserkennung  sind potentielle Anwendungsbereiche. Neben einer möglichst dichten und genauen Tiefenkarte spielen Laufzeitaspekte eine entscheidende Rolle. In dieser Arbeit wird das Laufzeitverhalten anhand einer Korrelationsmethode exemplarisch untersucht. Es werden insgesamt zwei Möglichkeiten zur Beschleunigung des Verfahrens vorgestellt. In einem ersten Schritt erfolgt die Parallelisierung auf der GPU (Graphics Processing Unit) mit der von Nvidia entwickelten Programmier-Technik CUDA. In einem zweiten Schritt erfolgt die Verteilung der Anwendung auf über TCP verbundene Clients. Zu diesem Zweck werden TCP-Sockets eingesetzt.
 
 %------------------------------------------------------------------------- 
 \SubSection{Korrelationsmethode}
 
-Der Algorithmus benötigt ein Referenzbild sowie ein Suchbild, welche beide entzerrt und rektiziert sein müssen. Die Vorgehensweise zur Bestimmung der Disparität ist dabei wie folgt: Ausgehend von einem Bildpunkt $(u_1,v_1)$ im Referenzbild wird ein Referenzfenster der Größe \textit{MaskWidth} und \textit{MaskHeight} um den Aufpunkt gewählt und mit entsprechenden verschobenen Suchfenstern aus dem Suchbild entlang einer korrespondierenden Zeile (Epipolarlinie) verglichen. Dies entspricht also der Bestimmung der Ähnlichkeit zweier gleichgroßer Fenster. Unter Verwendung einer Kostenfunktion kann die Bildposition (u2; v2) ermittelt werden, die für das gewählte Referenzfenster im Referenzbild das ähnlichste Suchfenster im Suchbild darstellt d.h. die niedrigsten Kosten besitzt. Die Differenz der Punkte $(u_1,v_1)$ und $(u_2,v_2)$ wird Disparität $d(u_1,v_1)$ genannt und wird zur Bestimmung der Tiefe einer Szene benötigt. Weiterführende Literatur ist in: \cite{Hartley.2003} und \cite{Schreer.2005} zu finden. Wurden für alle Bildpunkte in einem Bild die Disparitäten gefunden, werden diese zu einer sogenannten Disparitätskarte oder auch Tiefenkarte zusammengefügt. In Abbildung \ref{fig:korrelationsmethoden} ist ein Referenzfenster und ein um die Disparität $d(u,v)$ verschobenes Suchfenster dargestellt.
+Der Algorithmus benötigt ein Referenzbild sowie ein Suchbild, welche beide entzerrt und rektiziert sein müssen. Die Vorgehensweise zur Bestimmung der Disparität ist dabei wie folgt: Ausgehend von einem Bildpunkt $(u_1,v_1)$ im Referenzbild wird ein Referenzfenster der Größe \textit{MaskWidth} und \textit{MaskHeight} um den Aufpunkt gewählt und mit entsprechenden verschobenen Suchfenstern aus dem Suchbild entlang einer korrespondierenden Zeile (Epipolarlinie) verglichen. Dies entspricht also der Bestimmung der Ähnlichkeit zweier gleichgroßer Fenster. Unter Verwendung einer Kostenfunktion kann die Bildposition $(u2, v2)$ ermittelt werden, die für das gewählte Referenzfenster im Referenzbild das ähnlichste Suchfenster im Suchbild darstellt d.h. die niedrigsten Kosten besitzt. Die Differenz der Punkte $(u_1,v_1)$ und $(u_2,v_2)$ wird Disparität $d(u_1,v_1)$ genannt und wird zur Bestimmung der Tiefe einer Szene benötigt. Weiterführende Literatur ist in: \cite{Hartley.2003} und \cite{Schreer.2005} zu finden. Wurden für alle Bildpunkte in einem Bild die Disparitäten gefunden, werden diese zu einer sogenannten Disparitätskarte oder auch Tiefenkarte zusammengefügt. In Abbildung \ref{fig:korrelationsmethoden} ist ein Referenzfenster und ein um die Disparität $d(u,v)$ verschobenes Suchfenster dargestellt.
 
 \begin{figure}[!ht]
 	\centering
@@ -83,23 +83,17 @@ C(u,v,d) = \frac{1}{N}\sum\limits_{m} \sum\limits_{n} | g_1(u+m,v+n) - \\ g_2(u+
 \end{align}
 
 %------------------------------------------------------------------------- 
-\SubSection{Graphics Processing Unit}
-Der Grafikprozessor ist eine auf Berechnung von Grafiken spezialisierter und optimierter Prozessor in einem Computer oder einem anderen Gerät mit visueller Ausgabe.
-Der Cache-Speicher der GPU (Graphic Processing Unit) ist im Gegensatz der CPU erheblich kleiner dimensioniert. Zudem existiert kein Raum für komplexe Logik. Grundsätzlich ist die Recheneinheit der Grafikkarte so aufgebaut, dass möglichst viele eher einfach Rechenoperationen parallel möglich sind.
-Diese Algorithmic Logic Units (ALU) sind wie in Abbildung <<NR>> dargestellt in wesentlich höhrerer Anzahl auf der GPU vorhanden. Sie lassen sich wiederum jeweils in eine bestimmte Anzahl an Blöcke unterteilen, wobei jeder Block selbst mehrere Threads aufrufen kann. Durch diese Unterteilung ermöglicht der Grafikprozessor eine wesentlich schnellere Berechnung von einfachen arithmetischen Aufgaben.
-
-%------------------------------------------------------------------------- 
 \Section{Related Work}
 
 Die Berechnung von Tiefenkarten auf der GPU ist nicht neu. In der Arbeit von \cite{Yang.2002} wird eine Methode vorgestellt, die Korrelationsmethoden basierend auf der Kostenfunktion SAD mit Hilfe der GPU berechnet. In \cite{Woetzel.2004} erfolgt die Berechnung der Tiefenkarte mit der Kostenfunktion SSD. Die Bildvorverarbeitung und Nachbereitung erfolgt dabei ebenfalls auf der GPU. Als Ergebnis konnte eine Beschleunigung der Verarbeitungsgeschwindigkeit auf 20fps erreicht werden.
 
-Aktuellere Arbeiten beschäftigen sich mit der Beschleunigung des von Hirschmüllers vorgestellten Semi-Global Matching (SGM) \cite{Hirschmuller.2005} zum Erzeugen von Tiefenkarten. Ein Beispiel dafür ist die Arbeit \cite{Hirschmueller.2008} und \cite{Rosenberg.2006}, in welcher die Berechnung von Tiefenkarten mit dem SGM und CUDA implementiert wurde.
+Aktuellere Arbeiten beschäftigen sich mit der Beschleunigung des von Hirschmüllers vorgestellten Semi-Global Matching (SGM) \cite{Hirschmuller.2005} zum Erzeugen von Tiefenkarten. Ein Beispiel dafür ist die Arbeit \cite{Hirschmueller.2008} und \cite{Rosenberg.2006}, in welchen die Berechnung von Tiefenkarten mit dem SGM und CUDA implementiert wurden.
 
 {\color{red}KONNTE LEIDER KEINE LITERATUR ZU VERTEILTEN STEREOALGORITHMEN FINDEN! VIELLEICHT HABT IHR MEHR GLÜCK!
 Die Verteilung von Stereoalgorithmen wird vor allem in der}
 
 %------------------------------------------------------------------------- 
-\Section{Ansatz}
+\Section{Konzept}
  \textbf{Graphics Processing Unit}
  
 Der Grafikprozessor ist eine auf Berechnung von Grafiken spezialisierter und optimierter Prozessor in einem Computer oder einem anderen Gerät mit visueller Ausgabe.
@@ -109,23 +103,35 @@ Diese Algorithmic Logic Units (ALU) sind wie in Abbildung \ref{fig:gpu} dargeste
  \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.9\linewidth]{image/cuda.jpg}
-	\captionof{figure}[Ansatz]{Aufbau von CPU und GPU im Vergleich}
+	\captionof{figure}[Ansatz]{Aufbau von CPU und GPU im Vergleich \cite{CUDA.2015}}
 	\label{fig:gpu}
 \end{figure}
 
 \textbf{Idee}
 
-In dieser Arbeit geht es zunächst daraum die Berechnung der Tiefenkarte von der CPU auf die GPU auszulagern. Dazu soll eine entsprechende Programmiertechnik verwendet werden, um die notwendigen auf den Grafikspeicher zu transferieren. Im zweiten Schritt soll die Berechnung möglichst gut optimiert werden. Hierbei soll die Rechenzeit durch weitere Parallelisierung reduziert werden.
-Als letzte Möglichkeit zur Reduzierung der Zeit, soll eine Client-Sever Anwendung entwickelt werden. Dadurch soll die Berechnung auf mehrere Grafikkarten auf verschiedenen Rechnern über das Netzwerk aufgeteilt werden. Dafür soll das Bild in einzelne Segmente unterteilt werden und über das Netzwerk zur Berechnung an die verschiedenen Computer gesendet werden. Im Anschluss werden die einzelnen berechneten Segmente der Tiefenkarte zu einer gesamten Tiefenkarte zusammengefügt.
+In dieser Arbeit geht es zunächst darum die Berechnung der Tiefenkarte von der CPU auf die GPU auszulagern. Dazu wird eine entsprechende Programmiertechnik verwendet werden, um die notwendigen Daten auf den Grafikspeicher zu transferieren. In einem zweiten Schritt erfolgt die Optimierung der Berechnung durch massive Parallelisierung zur Laufzeitreduzierung auf der GPU. 
+
+Als weitere Möglichkeit zur Reduzierung der Laufzeit, wird eine Client-Sever Anwendung entwickelt. Durch diesen Sachverhalt ist die Aufteilung der Anwendung auf verschiedene Clients im Netzwerk möglich. Ziel ist es, die Berechnungen auf dem jeweiligen Client ebenfalls auf der GPU zu parallelisieren. Das Gesamtkonzept kann wie folgt zusammengefasst werden: In einem ersten Schritt erfolgt die Segmentierung des Bildes entlang einer Bildzeile. Die Segmente werden anschließend über das Netzwerk an die Clients verteilt. Im Anschluss führt jeder Client auf seiner GPU eine Berechnung der Tiefenkarte für seine Segmente durch. Abschließend sollen die berechneten Tiefenkarten an den Server gesendet werden, welcher diese zu einer gesamten Tiefenkarte zusammenfügt. 
 
 %------------------------------------------------------------------------- 
 \Section{Implementierung}
 \SubSection{Optimierung von CPU auf GPU}
 \textbf{CUDA}
 
-Die Programmiertechnik CUDA (Compute Unified Device Architecture) ist eine vom Grafikkarten-Hersteller nVidia entwickelte Möglichkeit, wodurch der Anwender Berechnungen auf dem Grafikprozessor ausführen kann. 
-In der Kurzfassung schreibt der Entwickler einen sogenannten Kernel, welche die Rechenlogik enthält die auf der GPU ausgeführt werden soll. Zudem muss der Host-Code geschrieben werden, welcher der das eigentliche Programm in der jeweiligen Programmiersprache enthält, die notwendigen Daten über spezifische Funktionen auf die GPU transferiert und dann den Kernel aufruft. Anschließend müssten die berechneten Daten wieder von der GPU auf die CPU kopiert und dort ausgewertet werden.
-Eine Parallelisierung ist hierbei durch den Entwickler möglich. Dieser kann steuern, auf wie viele Blöcke und Threads die entsprechende Operation aufgeteilt werden soll.
+CUDA (Compute Unified Device Architecture) ist eine vom Grafikkarten-Hersteller Nvidia entwickelte Programmiertechnik, welche die Durchführung von einfachen Berechnungen auf der GPU erlaubt. Im Folgenden soll der Aufbau kurz erläutert werden.
+  
+ \begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.7\linewidth]{image/cuda.png}
+	\captionof{figure}[Aufbau CUDA]{Thread-Hierarchie und Speicherverwaltung von CUDA \cite{CUDA.2015}}
+	\label{fig:cudaAufbau}
+\end{figure}
+
+Im Zusammenhang mit CUDA stellt der Begriff Kernel eine zentrale Rolle dar. Ein Kernel wird von einer Vielzahl hierarchisch angeordneter Threads auf der GPU ausgeführt. Jeder dieser Threads besitzt seinen eigenen privaten Speicherbreich (per-Thread Private Local Memory). Im Fall von CUDA C handelt es sich um eine in C geschriebene Funktion. Die einzelnen Threads werden in mehrdimensionalen Threadblöcken organisiert und erhalten eindeutige IDs. Alle Threads innerhalb eines Blocks teilen sich einen gemeinsamen Speicher (Per-Block Shared Memory) auf welchen der Zugriff synchronisiert erfolgen muss. Die verschiedenen Blöcke werden wiederum in sogenannte Grids  organisiert, die ebenfalls eine eindeutige ID erhalten. Jedes Grid stellt dabei ein eigenständiges Kernel dar. Abbildung \ref{fig:cudaAufbau} veranschaulicht diesen Aufbau. (Vgl. \cite{CUDA.2015})
+
+Praktisch ergibt sich dann folgender Aufbau: der Entwickler schreibt einen Kernel, welcher die Programmlogik enthält die auf der GPU ausgeführt werden soll. Darüber hinaus muss der Host-Code geschrieben werden, welcher das eigentliche Programm in der jeweiligen Programmiersprache enthält. Dieser führt den Transfer von benötigten Daten auf den Grafikspeicher aus und ruft anschließend den Kernel auf. Nach Durchführung des Kernels müssen die berechneten Daten wieder von der GPU auf die CPU kopiert werden um dort eine Weiterverarbeitung realisieren zu können.
+
+Eine Parallelisierung ist hierbei durch den Entwickler möglich. Dieser kann durch von CUDA bereitgestellte Funktionen steuern, auf wie viele Blöcke und Threads der entsprechende Kernel aufgeteilt werden soll.
 
 \SubSection{Entwicklung und Paralellisierung des Kernels}
 TODO: Beschreibung des Kernels und die Parallelisierung

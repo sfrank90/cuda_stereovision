@@ -12,6 +12,11 @@ H.~Hirschm{\"u}ller.
   Mutal Information}.
 \newblock Wessling, 2005.
 
+\bibitem{CUDA.2015}
+{NVIDIA Corporation}.
+\newblock {\em CUDA C PROGRAMMING GUIDE - Design Guide}.
+\newblock NVIDIA Corporation, 2015.
+
 \bibitem{Yang.2002}
 G.~B. R.~Yang, G.~Welch.
 \newblock Real-time consensus- based scene reconstruction using commodity
