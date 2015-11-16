@@ -16,6 +16,7 @@
 \usepackage{graphicx}
 \usepackage{capt-of}
 \usepackage{amsmath}
+\usepackage{amsfonts}
 
 
 
@@ -55,12 +56,12 @@ sven.frank90@gmail.com\\
 %------------------------------------------------------------------------- 
 \Section{Einführung}
 
-Zum Auffinden von korrespondierenden Punkten in einem Stereobildpaar werden verschiedene Stereoanalyseverfahren eingesetzt. Mit Hilfe der gefunden Korrespondenzen und den intrinsischen sowie extrinsischen Parameter des Stereokamerasystems ist es möglich mit Triangulation eine Szene 3D rekonstruieren. Stereoanalyseverfahren finden Einsatz im industriellen Umfeld z.B. im Bereich der Qualitätssicherung. Aber auch Anwendungsfelder in der Robotik und Automobilindustrie z.B. zur Hinderniserkennung  sind potentielle Anwendungsbereiche. Neben einer möglichst dichten und genauen Tiefenkarte spielen Laufzeitaspekte eine entscheidende Rolle. In dieser Arbeit wird das Laufzeitverhalten anhand einer Korrelationsmethode exemplarisch untersucht. Es werden insgesamt zwei Möglichkeiten zur Beschleunigung des Verfahrens vorgestellt. In einem ersten Schritt erfolgt die Parallelisierung auf der GPU (Graphics Processing Unit) mit der von Nvidia entwickelten Programmier-Technik CUDA. In einem zweiten Schritt erfolgt die Verteilung der Anwendung auf über TCP verbundene Clients. Zu diesem Zweck werden TCP-Sockets eingesetzt.
+Zum Auffinden von korrespondierenden Punkten in einem Stereobildpaar werden verschiedene Stereoanalyseverfahren eingesetzt. Mit Hilfe der gefundenen Korrespondenzen und den intrinsischen sowie extrinsischen Parameter des Stereokamerasystems ist es möglich durch Triangulation eine Szene 3D rekonstruieren. Stereoanalyseverfahren finden ihren Einsatz im industriellen Umfeld unter anderem im Bereich der Qualitätssicherung. Aber auch Anwendungsfelder in der Robotik und Automobilindustrie, zum Beispiel zur Hinderniserkennung, sind potentielle Anwendungsbereiche. Neben einer möglichst dichten und genauen Tiefenkarte spielen Laufzeitaspekte eine entscheidende Rolle. In dieser Arbeit wird das Laufzeitverhalten anhand einer Korrelationsmethode exemplarisch untersucht. Es werden insgesamt zwei Möglichkeiten zur Beschleunigung des Verfahrens vorgestellt. In einem ersten Schritt erfolgt die Parallelisierung auf der GPU (Graphics Processing Unit) mit der von Nvidia entwickelten Programmier-Technik CUDA. In einem zweiten Schritt erfolgt die Verteilung der Anwendung auf über ein Netzwerk verbundene Rechner. Zu diesem Zweck werden TCP-Sockets eingesetzt.
 
 %------------------------------------------------------------------------- 
 \SubSection{Korrelationsmethode}
 
-Der Algorithmus benötigt ein Referenzbild sowie ein Suchbild, welche beide entzerrt und rektiziert sein müssen. Die Vorgehensweise zur Bestimmung der Disparität ist dabei wie folgt: Ausgehend von einem Bildpunkt $(u_1,v_1)$ im Referenzbild wird ein Referenzfenster der Größe \textit{MaskWidth} und \textit{MaskHeight} um den Aufpunkt gewählt und mit entsprechenden verschobenen Suchfenstern aus dem Suchbild entlang einer korrespondierenden Zeile (Epipolarlinie) verglichen. Dies entspricht also der Bestimmung der Ähnlichkeit zweier gleichgroßer Fenster. Unter Verwendung einer Kostenfunktion kann die Bildposition $(u2, v2)$ ermittelt werden, die für das gewählte Referenzfenster im Referenzbild das ähnlichste Suchfenster im Suchbild darstellt d.h. die niedrigsten Kosten besitzt. Die Differenz der Punkte $(u_1,v_1)$ und $(u_2,v_2)$ wird Disparität $d(u_1,v_1)$ genannt und wird zur Bestimmung der Tiefe einer Szene benötigt. Weiterführende Literatur ist in: \cite{Hartley.2003} und \cite{Schreer.2005} zu finden. Wurden für alle Bildpunkte in einem Bild die Disparitäten gefunden, werden diese zu einer sogenannten Disparitätskarte oder auch Tiefenkarte zusammengefügt. In Abbildung \ref{fig:korrelationsmethoden} ist ein Referenzfenster und ein um die Disparität $d(u,v)$ verschobenes Suchfenster dargestellt.
+Der Algorithmus benötigt ein Referenzbild sowie ein Suchbild, welche beide entzerrt und rektifiziert sein müssen. Die Vorgehensweise zur Bestimmung der Disparität ist dabei wie folgt: Ausgehend von einem Bildpunkt $(u_1,v_1)$ im Referenzbild wird ein Referenzfenster der Größe \textit{MaskWidth} und \textit{MaskHeight} um den Ausgangspunkt gewählt und mit entsprechenden verschobenen Suchfenstern aus dem Suchbild entlang einer korrespondierenden Zeile (Epipolarlinie) verglichen. Dies entspricht also der Bestimmung der Ähnlichkeit zweier gleichgroßer Fenster. Unter Verwendung einer Kostenfunktion kann die Bildposition $(u2, v2)$ ermittelt werden, die für das gewählte Referenzfenster im Referenzbild das ähnlichste Suchfenster im Suchbild darstellt d.h. die niedrigsten Kosten besitzt. Die Differenz der Punkte $(u_1,v_1)$ und $(u_2,v_2)$ wird Disparität $d(u_1,v_1)$ genannt und wird zur Bestimmung der Tiefe einer Szene benötigt. Weiterführende Literatur ist in \cite{Hartley.2003} und \cite{Schreer.2005} zu finden. Wurden für alle Bildpunkte in einem Bild die Disparitäten gefunden, werden diese zu einer sogenannten Disparitätskarte oder auch Tiefenkarte zusammengefügt. In Abbildung \ref{fig:korrelationsmethoden} ist ein Referenzfenster und ein um die Disparität $d(u,v)$ verschobenes Suchfenster dargestellt.
 
 \begin{figure}[!ht]
 	\centering
@@ -72,7 +73,7 @@ Der Algorithmus benötigt ein Referenzbild sowie ein Suchbild, welche beide entz
 %------------------------------------------------------------------------- 
 \SubSection{Kostenfunktion}
 
-Als Kostenfunktion wird in dieser Arbeit der Mittlere absoluter Fehler (engl. sum of absolute dierences (SAD)) eingesetzt. Mit diesem wird die absolute Differenz zwischen zwei Fenstern berechnet. Die Ähnlichkeit ist dort am größten, wo die Differenz minimal wird
+Als Kostenfunktion wird in dieser Arbeit der mittlere absoluter Fehler (engl. sum of absolute differences (SAD)) eingesetzt. Mit diesem wird die absolute Differenz zwischen zwei Fenstern berechnet. Die Ähnlichkeit ist dort am größten, wo die Differenz minimal wird:
 
 \begin{align}
 \small 
@@ -85,7 +86,7 @@ C(u,v,d) = \frac{1}{N}\sum\limits_{m} \sum\limits_{n} | g_1(u+m,v+n) - \\ g_2(u+
 %------------------------------------------------------------------------- 
 \Section{Related Work}
 
-Die Berechnung von Tiefenkarten auf der GPU ist nicht neu. In der Arbeit von \cite{Yang.2002} wird eine Methode vorgestellt, die Korrelationsmethoden basierend auf der Kostenfunktion SAD mit Hilfe der GPU berechnet. In \cite{Woetzel.2004} erfolgt die Berechnung der Tiefenkarte mit der Kostenfunktion SSD. Die Bildvorverarbeitung und Nachbereitung erfolgt dabei ebenfalls auf der GPU. Als Ergebnis konnte eine Beschleunigung der Verarbeitungsgeschwindigkeit auf 20fps erreicht werden.
+Die Berechnung von Tiefenkarten auf der GPU ist nicht neu. In der Arbeit von \cite{Yang.2002} wird eine Methode vorgestellt, die Korrelationsmethoden basierend auf der Kostenfunktion SAD mit Hilfe der GPU berechnet. In \cite{Woetzel.2004} erfolgt die Berechnung der Tiefenkarte mit der Kostenfunktion SSD (engl. sum of absolute differences). Die Bildvorverarbeitung und Nachbereitung erfolgt dabei ebenfalls auf der GPU. Als Ergebnis konnte eine Beschleunigung der Verarbeitungsgeschwindigkeit auf 20fps erreicht werden.
 
 Aktuellere Arbeiten beschäftigen sich mit der Beschleunigung des von Hirschmüllers vorgestellten Semi-Global Matching (SGM) \cite{Hirschmuller.2005} zum Erzeugen von Tiefenkarten. Ein Beispiel dafür ist die Arbeit \cite{Hirschmueller.2008} und \cite{Rosenberg.2006}, in welchen die Berechnung von Tiefenkarten mit dem SGM und CUDA implementiert wurden.
 
@@ -98,7 +99,7 @@ Die Verteilung von Stereoalgorithmen wird vor allem in der}
  
 Der Grafikprozessor ist eine auf Berechnung von Grafiken spezialisierter und optimierter Prozessor in einem Computer oder einem anderen Gerät mit visueller Ausgabe.
 Der Cache-Speicher der GPU (Graphic Processing Unit) ist im Gegensatz der CPU erheblich kleiner dimensioniert. Zudem existiert kein Raum für komplexe Logik. Grundsätzlich ist die Recheneinheit der Grafikkarte so aufgebaut, dass möglichst viele eher einfach Rechenoperationen parallel möglich sind.
-Diese Algorithmic Logic Units (ALU) sind wie in Abbildung \ref{fig:gpu} dargestellt in wesentlich höhrerer Anzahl auf der GPU vorhanden. Sie lassen sich wiederum jeweils in eine bestimmte Anzahl an Blöcke unterteilen, wobei jeder Block selbst mehrere Threads aufrufen kann. Durch 
+Diese Algorithmic Logic Units (ALU) sind wie in Abbildung \ref{fig:gpu} dargestellt in wesentlich höhrerer Anzahl auf der GPU vorhanden. Sie lassen sich wiederum jeweils in eine bestimmte Anzahl an Blöcke unterteilen, wobei jeder Block selbst mehrere Threads aufrufen kann. Durch diese Unterteilung ermöglicht der Grafikprozessor eine wesentlich schnellere Berechnung von einfachen arithmetischen Aufgaben.
 
  \begin{figure}[!ht]
 	\centering
@@ -154,7 +155,10 @@ Die Verbindung zwischen zwei Kommunikationspartnern wird bei diesem Mechanismus 
 
 \textbf{Client-Server Anwendung}
 
-TODO: Beschreibung der Implementierung
+Die Berechnung der Disparität kann für horizontale Bildabschnitte unabhängig voneinander erfolgen und lässt sich daher auf mehrere Server verteilen. Zu beachten ist hierbei der obere und untere Randbereich der einzelnen Bildabschnitte, der für die Höhe der verwendeten Bildmatrix ausreichend groß sein muss, da andernfalls die am Rand gelegenen Zeilen nicht ausgewertet werden.
+
+Die Serveranwendung wird an einem Port gebunden und wartet auf eine Verbindungsanfrage. Wird eine Verbindung hergestellt, erwartet die Anwendung zunächst die Metadaten der zu bearbeitenden Bilder. Neben den Informationen zur Bildgröße werden hierbei auch die Parameter der Berechnung übertragen. Anschließend wird zunächst das linke, dann das rechte Bild übertragen, wobei die Bildgröße anhand der Metadaten überprüft wird. Da die Übertragung der Daten binär erfolgt, entsteht deutlich weniger Overhead als bei einer Implementierung mit einem SOAP-basiertem Webservice. Die Disparität wird auf der GPU des Servers berechnet und an den Client zurückgesendet. Dieser fügt die einzelnen Ergebnisse wieder zum Gesamtergebnis zusammen.
+
 
 %------------------------------------------------------------------------- 
 \Section{Evaluation}
@@ -165,10 +169,12 @@ Der zweite Schritt beinhaltete die Entwicklung einer simplen Client-Server-Anwen
 
 Im Zuge der Durchführung des Versuches wurde versucht die Berechungszeit der Tiefenkarte immer weiter zu reduzieren. Begonnen wurde mit der CPU, gefolgt von der GPU auf dem Host-Rechner. Anschließend wurde die Berechnung über das Netzwerk auf eine steigende Anzahl von Rechnern verteilt. 
 
-Für den Versuch wurden immer die gleichen Parameter zur Berechnung verwendet, damit die Ergebnisse vergleichbar sind. Als Versuchsbild diente ein Bild von einem Elefanten mit einer Auflösung von 681x681 Pixel. Dabei wurde das linke und das rechte Bild bereitgestellt. Die Parameter wurden anschließend wie folgt festgelegt:
-
-Fenstergröße: 7x7 Pixel
-Taumax: 40
+Für den Versuch wurden immer die gleichen Parameter zur Berechnung verwendet, damit die Ergebnisse vergleichbar sind. Als Versuchsbild diente ein Bild von einem Elefanten mit einer Auflösung von 681x681 Pixel. Dabei wurde das linke und das rechte Bild bereitgestellt. Die Parameter wurden anschließend wie folgt festgelegt: 
+\begin{itemize}
+\setlength\itemsep{0.1px}
+      \item Fenstergröße: 7x7 Pixel
+      \item $\tau_{max}$: 40
+\end{itemize}
 
 Die Durchführung des Versuches ergab die in Tabelle 1 dargestellten Ergebnisse.
 \begin{table}
@@ -205,26 +211,15 @@ Die Tabelle \ref{tab:messwerte} zeigt deutlich, dass die GPU wesentlich besser g
 
 %------------------------------------------------------------------------- 
 \Section{Zusammenfassung}
+In dieser Arbeit wurden Möglichkeiten zur Beschleunigung einer Disparitätenberechnung durch die Ausführung auf der GPU untersucht. Hierzu wurde ein gegebener Algorithmus zunächst mithilfe von CUDA parallelisiert. Anschließend wurde die Berechnung unter Verwendung von Sockets auf mehrere Rechner verteilt, um die Ausführung weiter zu beschleunigen. Es zeigt sich, dass dies eine wirkungsvolle und einfach zu implementierende Methode ist, um die Berechnung eines parallelisierbaren Problems zu beschleunigen.
 
 %------------------------------------------------------------------------- 
-\Section{Ausblick}
+%\Section{Ausblick}
 
 
 
 
 %------------------------------------------------------------------------- 
-\SubSection{Beispiel Footnotes}
-
-Please use footnotes sparingly%
-\footnote
-   {%
-     Or, better still, try to avoid footnotes altogether.  To help your 
-     readers, avoid using footnotes altogether and include necessary 
-     peripheral observations in the text (within parentheses, if you 
-     prefer, as in this sentence).
-   }
-and place them at the bottom of the column on the page on which they are 
-referenced. Use Times 8-point type, single-spaced.
 
 \bibliographystyle{latex8}
 \bibliography{latex8}
