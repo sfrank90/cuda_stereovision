@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.11.13)  16 NOV 2015 14:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.11.13)  17 NOV 2015 16:50
 entering extended mode
 **latex8.tex
 (latex8.tex
@@ -429,77 +429,73 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 44.
 
-Underfull \hbox (badness 3989) in paragraph at lines 64--65
+Underfull \hbox (badness 3989) in paragraph at lines 59--60
 \OT1/ptm/m/n/10 Such-bild, wel-che bei-de ent-zerrt und rek-ti-fi-ziert sein
  []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 
 <image/korrelationsverfahren.png, id=1, 643.03229pt x 221.9315pt>
 File: image/korrelationsverfahren.png Graphic file (type png)
 
 <use image/korrelationsverfahren.png>
-Package pdftex.def Info: image/korrelationsverfahren.png used on input line 68.
+Package pdftex.def Info: image/korrelationsverfahren.png used on input line 63.
 
 (pdftex.def)             Requested size: 213.4209pt x 73.65752pt.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [1{C:/Users/Sven Frank/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
-
-
- <./image/korrelationsverfahren.png>]
-
-LaTeX Font Warning: Command \small invalid in math mode on input line 84.
+LaTeX Font Warning: Command \small invalid in math mode on input line 79.
 
 
-LaTeX Font Warning: Command \small invalid in math mode on input line 84.
+LaTeX Font Warning: Command \small invalid in math mode on input line 79.
+
+[1{C:/Users/Sven Frank/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
-Underfull \hbox (badness 2205) in paragraph at lines 93--95
+]
+Underfull \hbox (badness 2205) in paragraph at lines 88--90
 \OT1/ptm/m/n/10 TEIL-TEN STE-REOAL-GO-RITH-MEN FIN-DEN! VIEL-
  []
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 98.
-<image/cuda.jpg, id=14, 655.69969pt x 248.42813pt>
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 93.
+<image/cuda.jpg, id=13, 655.69969pt x 248.42813pt>
 File: image/cuda.jpg Graphic file (type jpg)
  <use image/cuda.jpg>
-Package pdftex.def Info: image/cuda.jpg used on input line 106.
+Package pdftex.def Info: image/cuda.jpg used on input line 101.
 (pdftex.def)             Requested size: 213.4209pt x 80.85948pt.
 
-<image/cuda.png, id=15, 281.55188pt x 331.2375pt>
+<image/cuda.png, id=14, 281.55188pt x 331.2375pt>
 File: image/cuda.png Graphic file (type png)
  <use image/cuda.png>
-Package pdftex.def Info: image/cuda.png used on input line 126.
+Package pdftex.def Info: image/cuda.png used on input line 121.
 (pdftex.def)             Requested size: 165.99443pt x 195.2869pt.
 
-Underfull \hbox (badness 1442) in paragraph at lines 127--127
+Underfull \hbox (badness 1442) in paragraph at lines 122--122
 []\tenhv Abbildung 3. Thread-Hierarchie und Spei-
  []
 
-[2 <./image/cuda.jpg>] <image/ip-tcp.jpg, id=26, 765.6103pt x 315.42844pt>
-File: image/ip-tcp.jpg Graphic file (type jpg)
+[2 <./image/korrelationsverfahren.png> <./image/cuda.jpg>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-<use image/ip-tcp.jpg>
-Package pdftex.def Info: image/ip-tcp.jpg used on input line 151.
+
+<image/ip-tcp.jpg, id=26, 765.6103pt x 315.42844pt>
+File: image/ip-tcp.jpg Graphic file (type jpg)
+ <use image/ip-tcp.jpg>
+Package pdftex.def Info: image/ip-tcp.jpg used on input line 146.
 (pdftex.def)             Requested size: 213.4209pt x 87.92949pt.
 
-Underfull \hbox (badness 4254) in paragraph at lines 152--152
+Underfull \hbox (badness 4254) in paragraph at lines 147--147
 []\tenhv Abbildung 4. Kom-mu-ni-ka-ti-ons-che-ma von
  []
 
 [3 <./image/cuda.png> <./image/ip-tcp.jpg>]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 175.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 170.
 
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 175.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 170.
  (latex8.bbl
 [4]) [5
 
@@ -515,7 +511,7 @@ Here is how much of TeX's memory you used:
  5957 multiletter control sequences out of 15000+200000
  26978 words of font info for 66 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 27i,14n,24p,1380b,267s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,14n,24p,1380b,265s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
 m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program 
 Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Progra
@@ -532,7 +528,7 @@ ts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/
 type1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/ur
 w/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utm
 r8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on latex8.pdf (5 pages, 417946 bytes).
+Output written on latex8.pdf (5 pages, 417185 bytes).
 PDF statistics:
  89 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
