@@ -42,7 +42,7 @@ sven.frank90@gmail.com\\
 \thispagestyle{empty}
 
 \begin{abstract}
-   Die Verlagerung von parallelisierbaren Berechnungen von der CPU auf die Grafikkarte eines Rechners ermöglicht eine deutliche Steigerung der Rechengeschwindigkeit. Die CUDA-Platform von NVIDIA erweitert die Sprache C um Elemente zur parallelen Programmierung für geeignete Grafikkarten des Unternehmens. Eine weitere Steigerung der Rechenleistung lässt sich durch den Einsatz mehrerer Grafikkarten erreichen. Da normale PCs in der Regel nur über eine Grafikkarte verfügen, bietet sich die Verteilung des Problems über ein Netzwerk auf mehrere Rechner an. In dieser Arbeit wird am Beispiel einer Disparitätenberechnung von Stereobildern die Implementierung eines vorhandenen Algorithmus auf der GPU und die Aufteilung auf mehrere vernetze Computer beschrieben und evaluiert.
+Die Verlagerung von parallelisierbaren Berechnungen von der CPU auf die Grafikkarte eines Rechners ermöglicht eine deutliche Steigerung der Rechengeschwindigkeit. Die CUDA-Plattform von NVIDIA erweitert die Sprache C um Elemente zur parallelen Programmierung für geeignete Grafikkarten des Unternehmens. Eine weitere Steigerung der Rechenleistung lässt sich durch den Einsatz mehrerer Grafikkarten erreichen. Da normale PCs in der Regel nur über eine Grafikkarte verfügen, bietet sich die Verteilung des Problems über ein Netzwerk auf mehrere Rechner an. In dieser Arbeit wird am Beispiel einer Disparitätenberechnung von Stereobildern die Implementierung eines vorhandenen Algorithmus auf der GPU und die Aufteilung auf mehrere vernetze Computer beschrieben und evaluiert.
  
 \end{abstract}
 
@@ -68,7 +68,7 @@ Der Algorithmus benötigt ein Referenzbild sowie ein Suchbild, welche beide entz
 %------------------------------------------------------------------------- 
 \SubSection{Kostenfunktion}
 
-Als Kostenfunktion wird in dieser Arbeit der mittlere absoluter Fehler (engl. sum of absolute differences (SAD)) eingesetzt. Mit diesem wird die absolute Differenz zwischen zwei Fenstern berechnet. Die Ähnlichkeit ist dort am größten, wo die Differenz minimal wird:
+Als Kostenfunktion wird in dieser Arbeit der mittlere absolute Fehler (engl. sum of absolute differences (SAD)) eingesetzt. Mit diesem wird die absolute Differenz zwischen zwei Fenstern berechnet. Die Ähnlichkeit ist dort am größten, wo die Differenz minimal wird:
 
 \begin{align}
 \small 
@@ -92,8 +92,8 @@ Die Verteilung von Stereoalgorithmen wird vor allem in der}
 \Section{Konzept}
  \textbf{Graphics Processing Unit}
  
-Der Grafikprozessor ist eine auf Berechnung von Grafiken spezialisierter und optimierter Prozessor in einem Computer oder einem anderen Gerät mit visueller Ausgabe.
-Der Cache-Speicher der GPU (Graphic Processing Unit) ist im Gegensatz der CPU erheblich kleiner dimensioniert. Zudem existiert kein Raum für komplexe Logik. Grundsätzlich ist die Recheneinheit der Grafikkarte so aufgebaut, dass möglichst viele eher einfach Rechenoperationen parallel möglich sind.
+Der Grafikprozessor ist ein auf Berechnung von Grafiken spezialisierter und optimierter Prozessor in einem Computer oder einem anderen Gerät mit visueller Ausgabe.
+Der Cache-Speicher der GPU (Graphic Processing Unit) ist im Gegensatz zur CPU erheblich kleiner dimensioniert. Zudem existiert kein Raum für komplexe Logik. Grundsätzlich ist die Recheneinheit der Grafikkarte so aufgebaut, dass möglichst viele eher einfache Rechenoperationen parallel möglich sind.
 Diese Algorithmic Logic Units (ALU) sind wie in Abbildung \ref{fig:gpu} dargestellt in wesentlich höhrerer Anzahl auf der GPU vorhanden. Sie lassen sich wiederum jeweils in eine bestimmte Anzahl an Blöcke unterteilen, wobei jeder Block selbst mehrere Threads aufrufen kann. Durch diese Unterteilung ermöglicht der Grafikprozessor eine wesentlich schnellere Berechnung von einfachen arithmetischen Aufgaben.
 
  \begin{figure}[!ht]
@@ -130,7 +130,9 @@ Praktisch ergibt sich dann folgender Aufbau: der Entwickler schreibt einen Kerne
 Eine Parallelisierung ist hierbei durch den Entwickler möglich. Dieser kann durch von CUDA bereitgestellte Funktionen steuern, auf wie viele Blöcke und Threads der entsprechende Kernel aufgeteilt werden soll.
 
 \SubSection{Entwicklung und Paralellisierung des Kernels}
-TODO: Beschreibung des Kernels und die Parallelisierung
+Der Kernel wurde aus der bereits vorhandenen iterativen Implementierung des Algorithmus entwickelt. Da die Berechnung der Disparität der einzelnen Bildpunkte unabhängig voneinander erfolgt, ist es naheliegend, diese zu parallelisieren. Hierzu wurden die beiden äußersten Schleifen, die für die Iteration über die einzelnen Bildpunkte zuständig sind, entfernt.  
+Aufgrund der limitierten Anzahl an Threads pro Block ist eine Aufteilung der Pixel einer Zeile auf einen Block nicht sinnvoll. Übersteigt die Pixelzahl pro Zeile die Limitierung, treten Fehler auf. Stattdessen wird eine feste quadratische Blockgröße gewählt. Die Größe des Grids wird aus der Blockgröße und der Anzahl an Zeilen und Spalten des Bildes berechnet und aufgerundet, damit alle Bildpunkte abgedeckt werden. Um Fehler bei den am äußersten Rand gelegenen Blöcken zu vermeiden, wird im Kernel abgefragt, ob der Thread noch einem Bildpunkt zugeordnet ist oder dieser außerhalb des Bildes liegt.
+Bis auf die aufgrund der syntaxspezifischen Unterschiede notwendigen Änderungen waren keine weiteren Anpassungen des Algorithmus an die parallele Verarbeitung notwendig.
 
 \SubSection{Parallelisierung über TCP/IP}
 
