@@ -1,4 +1,4 @@
-
+﻿
 %
 %  $Description: Author guidelines and sample document in LaTeX 2.09$ 
 %
@@ -197,7 +197,14 @@ Die Durchführung des Versuches ergab die in Tabelle \ref{tab:messwerte} dargest
 \label{tab:messwerte}
 \end{table}
 
-Die Tabelle \ref{tab:messwerte} zeigt deutlich, dass die GPU wesentlich besser geeignet ist, um Grafikoperationen zu erledigen. Die Zeit für die Berechung der Tiefenkarte konnte auf der GPU im Vergleich zu CPU um etwas 85\% des Ausgangswertes reduziert werden. Teilt man diese Berechung nun auf mehrere GPUs über das Netzwerk auf, so stellt man fest, dass bis zu einer Verwendung von 6 GPUs die Rechenzeit noch erheblich sinkt. In fügt man nun weitere GPUs hinzu, so konvergiert die Rechenzeit irgendwann gegen einen bestimmten Wert. Bereits bei einer Erhöhung von 7 auf 8 GPUs erkennt man schon kaum eine wirkliche Reduzierung.
+Die Tabelle \ref{tab:messwerte} zeigt deutlich, dass die GPU wesentlich besser geeignet ist, um Grafikoperationen zu erledigen. Die Zeit für die Berechung der Tiefenkarte konnte auf der GPU im Vergleich zu CPU um etwas 85\% des Ausgangswertes reduziert werden. Teilt man diese Berechung nun auf mehrere GPUs über das Netzwerk auf, so stellt man fest, dass bis zu einer Verwendung von 6 GPUs die Rechenzeit noch erheblich sinkt. In fügt man nun weitere GPUs hinzu, so konvergiert die Rechenzeit irgendwann gegen einen bestimmten Wert. Bereits bei einer Erhöhung von 7 auf 8 GPUs erkennt man wie in Abbildung \ref{fig:diag} zu sehen ist schon kaum eine wirkliche Reduzierung.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.9\linewidth]{image/geschw.png}
+	\captionof{figure}[Korrelationsmethoden]{Abhängigkeit der Berechnungszeit von der GPU-Anzahl}
+	\label{fig:dia}
+\end{figure}
 
 %------------------------------------------------------------------------- 
 \Section{Zusammenfassung}
