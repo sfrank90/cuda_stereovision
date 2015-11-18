@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.11.13)  18 NOV 2015 15:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.11.13)  18 NOV 2015 16:54
 entering extended mode
 **latex8.tex
 (latex8.tex
@@ -380,11 +380,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 LaTeX Warning: Unused global option(s):
     [times].
 
-(latex8.aux
-
-LaTeX Warning: Label `fig:gpu' multiply defined.
-
-)
+(latex8.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
 LaTeX Font Info:    ... okay on input line 30.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
@@ -484,55 +480,52 @@ Underfull \hbox (badness 5288) in paragraph at lines 135--138
 <image/ip-tcp.jpg, id=26, 765.6103pt x 315.42844pt>
 File: image/ip-tcp.jpg Graphic file (type jpg)
  <use image/ip-tcp.jpg>
-Package pdftex.def Info: image/ip-tcp.jpg used on input line 142.
+Package pdftex.def Info: image/ip-tcp.jpg used on input line 141.
 (pdftex.def)             Requested size: 213.4209pt x 87.92949pt.
 
-Underfull \hbox (badness 4254) in paragraph at lines 143--143
+Underfull \hbox (badness 4254) in paragraph at lines 142--142
 []\tenhv Abbildung 4. Kom-mu-ni-ka-ti-ons-che-ma von
  []
 
 [3 <./image/cuda.png> <./image/ip-tcp.jpg>]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 165.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 164.
 
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 165.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 164.
  (latex8.bbl
 [4]) [5
 
-] (latex8.aux)
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+] (latex8.aux) ) 
 Here is how much of TeX's memory you used:
- 2676 strings out of 493673
- 33885 string characters out of 3141512
- 107542 words of memory out of 3000000
- 5957 multiletter control sequences out of 15000+200000
+ 2679 strings out of 493673
+ 33924 string characters out of 3141512
+ 107520 words of memory out of 3000000
+ 5960 multiletter control sequences out of 15000+200000
  26978 words of font info for 66 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 27i,14n,24p,1380b,267s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
-m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program 
-Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex9.pfb><C:/Progra
-m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program 
-Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Fil
-es (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files 
-(x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Program Files (x8
-6)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files (x86)/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/f
-onts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/
-type1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/ur
-w/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utm
-r8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on latex8.pdf (5 pages, 417476 bytes).
+ 27i,14n,24p,1380b,265s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.
+enc}<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pf
+b><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex9.
+pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pf
+b><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
+C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/
+Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Pro
+gram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Progra
+m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Fi
+les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files 
+(x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files (x86
+)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Program Files (x86)/MiK
+TeX 2.9/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/
+fonts/type1/urw/times/utmb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1
+/urw/times/utmr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/times/
+utmri8a.pfb>
+Output written on latex8.pdf (5 pages, 418291 bytes).
 PDF statistics:
  89 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

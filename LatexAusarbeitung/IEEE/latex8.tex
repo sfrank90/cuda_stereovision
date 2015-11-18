@@ -133,18 +133,17 @@ Bis auf die aufgrund der syntaxspezifischen Unterschiede notwendigen Änderungen
 
 \paragraph{Netzwerkkommunikation}
 Bei Sockets handelt es sich um ein vom Betriebssytem bereitgestelltes Objekt, welche als Kommunikationsendpunkte betrachtet werden können. Durch diese Socktes können Daten empfangen und versendet werden, wobei verschiedene Techniken zur Übermittlung auf der Transportschicht verwendet werden können.
-Ein bekanntes und im Zuge dieser Arbeit verwendetes Modell nutzt TCP/IP zur Kommunikation. Dabei sorgt das Transmission Control Protocol für eine zuverlässige Übertragung der Daten auf Basis vom Internet Protocol (IP). Die Übermittlung der Pakete ist dabei garantiert. Sollte ein Fehler auftreten, so erhält der Sender eine Fehlermeldung und kann die Daten erneut senden. Grundsätzlich entspricht die Reihenfolge der eingehenden Pakete der Sendereihenfolge.
-Die Verbindung zwischen zwei Kommunikationspartnern wird bei diesem Mechanismus durch die IP-Adressen und eine gemeinsame Portnummer hergestellt.
-
+Ein bekanntes und im Zuge dieser Arbeit verwendetes Modell nutzt TCP/IP zur Kommunikation (vgl. Abbildung \ref{fig:tcpip}). Dabei sorgt das Transmission Control Protocol für eine zuverlässige Übertragung der Daten auf Basis vom Internet Protocol (IP). Die Übermittlung der Pakete ist dabei garantiert. Sollte ein Fehler auftreten, so erhält der Sender eine Fehlermeldung und kann die Daten erneut senden. Grundsätzlich entspricht die Reihenfolge der eingehenden Pakete der Sendereihenfolge.
+Die Verbindung zwischen zwei Kommunikationspartnern wird bei diesem Mechanismus durch die IP-Adressen und eine gemeinsame Portnummer hergestellt.\cite{Willemer.2007}
 
  \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=0.9\linewidth]{image/ip-tcp.jpg}
-	\captionof{figure}[Parallelisierung]{Kommunikationschema von TCP/IP}
-	\label{fig:gpu}
+	\captionof{figure}[Parallelisierung]{Kommunikationschema von TCP/IP \cite{Werner.2015}}
+	\label{fig:tcpip}
 \end{figure}
-\paragraph{Client-Server Anwendung}
 
+\paragraph{Client-Server Anwendung}
 Die Berechnung der Disparität kann für horizontale Bildabschnitte unabhängig voneinander erfolgen und lässt sich daher auf mehrere Server verteilen. Zu beachten ist hierbei der obere und untere Randbereich der einzelnen Bildabschnitte, der für die Höhe der verwendeten Bildmatrix ausreichend groß sein muss, da andernfalls die am Rand gelegenen Zeilen nicht ausgewertet werden.
 
 Die Serveranwendung wird an einem Port gebunden und wartet auf eine Verbindungsanfrage. Wird eine Verbindung hergestellt, erwartet die Anwendung zunächst die Metadaten der zu bearbeitenden Bilder. Neben den Informationen zur Bildgröße werden hierbei auch die Parameter der Berechnung übertragen. Anschließend wird zunächst das linke, dann das rechte Bild übertragen, wobei die Bildgröße anhand der Metadaten überprüft wird. Da die Übertragung der Daten binär erfolgt, entsteht deutlich weniger Overhead als bei einer Implementierung mit einem SOAP-basiertem Webservice. Die Disparität wird auf der GPU des Servers berechnet und an den Client zurückgesendet. Dieser fügt die einzelnen Ergebnisse wieder zum Gesamtergebnis zusammen.

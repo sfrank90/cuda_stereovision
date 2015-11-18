@@ -1,10 +1,10 @@
-\begin{thebibliography}{1}\setlength{\itemsep}{-1ex}\small
+\begin{thebibliography}{10}\setlength{\itemsep}{-1ex}\small
 
 \bibitem{Hirschmueller.2008}
 I.~Ernst and H.~Hirschmüller.
 \newblock Mutual information based semi-global stereo matching on the gpu.
-\newblock In {\em International Symposium on Visual Computing (ISVC08)},
-  December 2008.
+\newblock In {\em International Symposium on Visual Computing (ISVC08)}, Las
+  Vegas, USA, December 2008.
 
 \bibitem{Hirschmuller.2005}
 H.~Hirschm{\"u}ller.
@@ -41,6 +41,17 @@ H.~R. und A.~Zisserman.
 \newblock {\em Multiple view geometry in computer vision}.
 \newblock {Cambridge University Press}, Cambridge, UK and New York, 2nd ed.
   edition, 2003.
+
+\bibitem{Werner.2015}
+{\relax PD Dr}.~C. Werner.
+\newblock {Systemarchitekturen für Verteilte Anwendungen –
+  Implementierungsvarianten –}.
+\newblock University Lecture, 2012.
+
+\bibitem{Willemer.2007}
+A.~Willemer.
+\newblock {\em {UNIX - Das umfassende Handbuch}}.
+\newblock {Galileo Computing}, 2007.
 
 \bibitem{Woetzel.2004}
 J.~Woetzel and R.~Koch.
