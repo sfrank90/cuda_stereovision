@@ -52,7 +52,7 @@ Die Verlagerung von parallelisierbaren Berechnungen von der CPU auf die Grafikka
 %------------------------------------------------------------------------- 
 \Section{Einführung}
 
-Zum Auffinden von korrespondierenden Punkten in einem Stereobildpaar werden verschiedene Stereoanalyseverfahren eingesetzt. Mit Hilfe der gefundenen Korrespondenzen und den intrinsischen sowie extrinsischen Parameter des Stereokamerasystems ist es möglich durch Triangulation eine dreidimensionale Szene zu rekonstruieren. Stereoanalyseverfahren finden ihren Einsatz im industriellen Umfeld unter anderem im Bereich der Qualitätssicherung. Aber auch Anwendungsfelder in der Robotik und Automobilindustrie, zum Beispiel zur Hinderniserkennung, sind potentielle Anwendungsbereiche. Neben einer möglichst dichten und genauen Tiefenkarte spielen Laufzeitaspekte eine entscheidende Rolle. In dieser Arbeit wird das Laufzeitverhalten anhand einer Korrelationsmethode exemplarisch untersucht. Es werden insgesamt zwei Möglichkeiten zur Beschleunigung des Verfahrens vorgestellt. In einem ersten Schritt erfolgt die Parallelisierung auf der GPU (Graphics Processing Unit) mit der von Nvidia entwickelten Programmier-Technik CUDA. In einem zweiten Schritt erfolgt die Verteilung der Anwendung auf über ein Netzwerk verbundene Rechner. Zu diesem Zweck werden TCP-Sockets eingesetzt.
+Zum Auffinden von korrespondierenden Punkten in einem Stereobildpaar werden verschiedene Stereoanalyseverfahren eingesetzt. Mit Hilfe der gefundenen Korrespondenzen und den intrinsischen sowie extrinsischen Parametern des Stereokamerasystems ist es möglich durch Triangulation eine dreidimensionale Szene zu rekonstruieren. Stereoanalyseverfahren finden ihren Einsatz im industriellen Umfeld unter anderem im Bereich der Qualitätssicherung. Aber auch Anwendungsfelder in der Robotik und Automobilindustrie, zum Beispiel zur Hinderniserkennung, sind potentielle Anwendungsbereiche. Neben einer möglichst dichten und genauen Tiefenkarte spielen Laufzeitaspekte eine entscheidende Rolle. In dieser Arbeit wird das Laufzeitverhalten anhand einer Korrelationsmethode exemplarisch untersucht. Es werden insgesamt zwei Möglichkeiten zur Beschleunigung des Verfahrens vorgestellt. In einem ersten Schritt erfolgt die Parallelisierung auf der GPU (Graphics Processing Unit) mit der von Nvidia entwickelten Programmier-Technik CUDA. In einem zweiten Schritt erfolgt die Verteilung der Anwendung auf über ein Netzwerk verbundene Rechner. Zu diesem Zweck werden TCP-Sockets eingesetzt.
 
 %------------------------------------------------------------------------- 
 \SubSection{Korrelationsmethode}
@@ -84,7 +84,7 @@ C(u,v,d) = \frac{1}{N}\sum\limits_{m} \sum\limits_{n} | g_1(u+m,v+n) - \\ g_2(u+
 
 Die Berechnung von Tiefenkarten auf der GPU ist nicht neu. In der Arbeit von \cite{Yang.2002} wird eine Methode vorgestellt, die Korrelationsmethoden basierend auf der Kostenfunktion SAD mit Hilfe der GPU berechnet. In \cite{Woetzel.2004} erfolgt die Berechnung der Tiefenkarte mit der Kostenfunktion SSD (engl. sum of absolute differences). Die Bildvorverarbeitung und Nachbereitung erfolgt dabei ebenfalls auf der GPU. Als Ergebnis konnte eine Beschleunigung der Verarbeitungsgeschwindigkeit auf 20fps erreicht werden.
 
-Aktuellere Arbeiten beschäftigen sich mit der Beschleunigung des von Hirschmüllers vorgestellten Semi-Global Matching (SGM) \cite{Hirschmuller.2005} zum Erzeugen von Tiefenkarten. Ein Beispiel dafür ist die Arbeit \cite{Hirschmueller.2008} und \cite{Rosenberg.2006}, in welchen die Berechnung von Tiefenkarten mit dem SGM und CUDA implementiert wurden.
+Aktuellere Arbeiten beschäftigen sich mit der Beschleunigung des von Hirschmüllers vorgestellten Semi-Global Matching (SGM) \cite{Hirschmuller.2005} zum Erzeugen von Tiefenkarten. Ein Beispiel dafür sind die Arbeiten \cite{Hirschmueller.2008} und \cite{Rosenberg.2006}, in welchen die Berechnung von Tiefenkarten mit dem SGM und CUDA implementiert wurden.
 
 %------------------------------------------------------------------------- 
 \Section{Konzept}
@@ -101,7 +101,7 @@ Diese Algorithmic Logic Units (ALU) sind wie in Abbildung \ref{fig:gpu} dargeste
 \end{figure}
 
 \paragraph{Idee}
-In dieser Arbeit geht es zunächst darum die Berechnung der Tiefenkarte von der CPU auf die GPU auszulagern. Dazu wird eine entsprechende Programmiertechnik verwendet werden, um die notwendigen Daten auf den Grafikspeicher zu transferieren. In einem zweiten Schritt erfolgt die Optimierung der Berechnung durch massive Parallelisierung zur Laufzeitreduzierung auf der GPU. 
+In dieser Arbeit geht es zunächst darum die Berechnung der Tiefenkarte von der CPU auf die GPU auszulagern. Dazu wird eine entsprechende Programmiertechnik verwendet, um die notwendigen Daten auf den Grafikspeicher zu transferieren. In einem zweiten Schritt erfolgt die Optimierung der Berechnung durch massive Parallelisierung zur Laufzeitreduzierung auf der GPU. 
 
 Als weitere Möglichkeit zur Reduzierung der Laufzeit wird eine Client-Sever Anwendung entwickelt. Durch diesen Sachverhalt ist die Aufteilung der Anwendung auf verschiedene Clients im Netzwerk möglich. Ziel ist es, die Berechnungen auf dem jeweiligen Client ebenfalls auf der GPU zu parallelisieren. Das Gesamtkonzept kann wie folgt zusammengefasst werden: In einem ersten Schritt erfolgt die Segmentierung des Bildes entlang einer Bildzeile. Die Segmente werden anschließend über das Netzwerk an die Clients verteilt. Im Anschluss führt jeder Client auf seiner GPU eine Berechnung der Tiefenkarte für seine Segmente durch. Abschließend sollen die berechneten Tiefenkarten an den Server gesendet werden, welcher diese zu einer gesamten Tiefenkarte zusammenfügt. 
 
@@ -133,7 +133,7 @@ Bis auf die aufgrund der syntaxspezifischen Unterschiede notwendigen Änderungen
 \SubSection{Parallelisierung über TCP/IP}
 
 \paragraph{Netzwerkkommunikation}
-Bei Sockets handelt es sich um ein vom Betriebssytem bereitgestelltes Objekt, welche als Kommunikationsendpunkte betrachtet werden können. Durch diese Socktes können Daten empfangen und versendet werden, wobei verschiedene Techniken zur Übermittlung auf der Transportschicht verwendet werden können.
+Bei Sockets handelt es sich um vom Betriebssytem bereitgestellte Objekte, welche als Kommunikationsendpunkte betrachtet werden können. Durch diese Socktes können Daten empfangen und versendet werden, wobei verschiedene Techniken zur Übermittlung auf der Transportschicht verwendet werden können.
 Ein bekanntes und im Zuge dieser Arbeit verwendetes Modell nutzt TCP/IP zur Kommunikation (vgl. Abbildung \ref{fig:tcpip}). Dabei sorgt das Transmission Control Protocol für eine zuverlässige Übertragung der Daten auf Basis vom Internet Protocol (IP). Die Übermittlung der Pakete ist dabei garantiert. Sollte ein Fehler auftreten, so erhält der Sender eine Fehlermeldung und kann die Daten erneut senden. Grundsätzlich entspricht die Reihenfolge der eingehenden Pakete der Sendereihenfolge.
 Die Verbindung zwischen zwei Kommunikationspartnern wird bei diesem Mechanismus durch die IP-Adressen und eine gemeinsame Portnummer hergestellt.\cite{Willemer.2007}
 
@@ -197,7 +197,7 @@ Die Durchführung des Versuches ergab die in Tabelle \ref{tab:messwerte} dargest
 \label{tab:messwerte}
 \end{table}
 
-Die Tabelle \ref{tab:messwerte} zeigt deutlich, dass die GPU wesentlich besser geeignet ist, um Grafikoperationen zu erledigen. Die Zeit für die Berechung der Tiefenkarte konnte auf der GPU im Vergleich zu CPU um etwas 85\% des Ausgangswertes reduziert werden. Teilt man diese Berechung nun auf mehrere GPUs über das Netzwerk auf, so stellt man fest, dass bis zu einer Verwendung von 6 GPUs die Rechenzeit noch erheblich sinkt. In fügt man nun weitere GPUs hinzu, so konvergiert die Rechenzeit irgendwann gegen einen bestimmten Wert. Bereits bei einer Erhöhung von 7 auf 8 GPUs erkennt man wie in Abbildung \ref{fig:dia} zu sehen ist schon kaum eine wirkliche Reduzierung.
+Die Tabelle \ref{tab:messwerte} zeigt deutlich, dass die GPU wesentlich besser geeignet ist, um Grafikoperationen zu erledigen. Die Zeit für die Berechung der Tiefenkarte konnte auf der GPU im Vergleich zu CPU um etwas 85\% des Ausgangswertes reduziert werden. Teilt man diese Berechung nun auf mehrere GPUs über das Netzwerk auf, so stellt man fest, dass bis zu einer Verwendung von 6 GPUs die Rechenzeit noch erheblich sinkt. Fügt man nun weitere GPUs hinzu, so konvergiert die Rechenzeit irgendwann gegen einen bestimmten Wert. Bereits bei einer Erhöhung von 7 auf 8 GPUs erkennt man wie in Abbildung \ref{fig:dia} zu sehen ist schon kaum eine wirkliche Reduzierung.
 
 \begin{figure}[!ht]
 	\centering
