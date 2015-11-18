@@ -86,13 +86,9 @@ Die Berechnung von Tiefenkarten auf der GPU ist nicht neu. In der Arbeit von \ci
 
 Aktuellere Arbeiten beschäftigen sich mit der Beschleunigung des von Hirschmüllers vorgestellten Semi-Global Matching (SGM) \cite{Hirschmuller.2005} zum Erzeugen von Tiefenkarten. Ein Beispiel dafür ist die Arbeit \cite{Hirschmueller.2008} und \cite{Rosenberg.2006}, in welchen die Berechnung von Tiefenkarten mit dem SGM und CUDA implementiert wurden.
 
-{\color{red}KONNTE LEIDER KEINE LITERATUR ZU VERTEILTEN STEREOALGORITHMEN FINDEN! VIELLEICHT HABT IHR MEHR GLÜCK!
-Die Verteilung von Stereoalgorithmen wird vor allem in der}
-
 %------------------------------------------------------------------------- 
 \Section{Konzept}
- \textbf{Graphics Processing Unit}
- 
+\paragraph{Graphics Processing Unit}
 Der Grafikprozessor ist ein auf Berechnung von Grafiken spezialisierter und optimierter Prozessor in einem Computer oder einem anderen Gerät mit visueller Ausgabe.
 Der Cache-Speicher der GPU (Graphic Processing Unit) ist im Gegensatz zur CPU erheblich kleiner dimensioniert. Zudem existiert kein Raum für komplexe Logik. Grundsätzlich ist die Recheneinheit der Grafikkarte so aufgebaut, dass möglichst viele eher einfache Rechenoperationen parallel möglich sind.
 Diese Algorithmic Logic Units (ALU) sind wie in Abbildung \ref{fig:gpu} dargestellt in wesentlich höhrerer Anzahl auf der GPU vorhanden. Sie lassen sich wiederum jeweils in eine bestimmte Anzahl an Blöcke unterteilen, wobei jeder Block selbst mehrere Threads aufrufen kann. Durch diese Unterteilung ermöglicht der Grafikprozessor eine wesentlich schnellere Berechnung von einfachen arithmetischen Aufgaben.
@@ -104,8 +100,7 @@ Diese Algorithmic Logic Units (ALU) sind wie in Abbildung \ref{fig:gpu} dargeste
 	\label{fig:gpu}
 \end{figure}
 
-\textbf{Idee}
-
+\paragraph{Idee}
 In dieser Arbeit geht es zunächst darum die Berechnung der Tiefenkarte von der CPU auf die GPU auszulagern. Dazu wird eine entsprechende Programmiertechnik verwendet werden, um die notwendigen Daten auf den Grafikspeicher zu transferieren. In einem zweiten Schritt erfolgt die Optimierung der Berechnung durch massive Parallelisierung zur Laufzeitreduzierung auf der GPU. 
 
 Als weitere Möglichkeit zur Reduzierung der Laufzeit, wird eine Client-Sever Anwendung entwickelt. Durch diesen Sachverhalt ist die Aufteilung der Anwendung auf verschiedene Clients im Netzwerk möglich. Ziel ist es, die Berechnungen auf dem jeweiligen Client ebenfalls auf der GPU zu parallelisieren. Das Gesamtkonzept kann wie folgt zusammengefasst werden: In einem ersten Schritt erfolgt die Segmentierung des Bildes entlang einer Bildzeile. Die Segmente werden anschließend über das Netzwerk an die Clients verteilt. Im Anschluss führt jeder Client auf seiner GPU eine Berechnung der Tiefenkarte für seine Segmente durch. Abschließend sollen die berechneten Tiefenkarten an den Server gesendet werden, welcher diese zu einer gesamten Tiefenkarte zusammenfügt. 
@@ -113,7 +108,6 @@ Als weitere Möglichkeit zur Reduzierung der Laufzeit, wird eine Client-Sever An
 %------------------------------------------------------------------------- 
 \Section{Implementierung}
 \SubSection{Optimierung von CPU auf GPU}
-\textbf{CUDA}
 
 CUDA (Compute Unified Device Architecture) ist eine vom Grafikkarten-Hersteller Nvidia entwickelte Programmiertechnik, welche die Durchführung von einfachen Berechnungen auf der GPU erlaubt. Im Folgenden soll der Aufbau kurz erläutert werden.
   
@@ -130,16 +124,14 @@ Praktisch ergibt sich dann folgender Aufbau: der Entwickler schreibt einen Kerne
 
 Eine Parallelisierung ist hierbei durch den Entwickler möglich. Dieser kann durch von CUDA bereitgestellte Funktionen steuern, auf wie viele Blöcke und Threads der entsprechende Kernel aufgeteilt werden soll.
 
-\SubSection{Entwicklung und Paralellisierung des Kernels}
-
+\paragraph{Entwicklung und Paralellisierung des Kernels}
 Der Kernel wurde aus der bereits vorhandenen iterativen Implementierung des Algorithmus entwickelt. Da die Berechnung der Disparität der einzelnen Bildpunkte unabhängig voneinander erfolgt, ist es naheliegend, diese zu parallelisieren. Hierzu wurden die beiden äußersten Schleifen, die für die Iteration über die einzelnen Bildpunkte zuständig sind, entfernt.  
 Aufgrund der limitierten Anzahl an Threads pro Block ist eine Aufteilung der Pixel einer Zeile auf einen Block nicht sinnvoll. Übersteigt die Pixelzahl pro Zeile die Limitierung, treten Fehler auf. Stattdessen wird eine feste quadratische Blockgröße gewählt. Die Größe des Grids wird aus der Blockgröße und der Anzahl an Zeilen und Spalten des Bildes berechnet und aufgerundet, damit alle Bildpunkte abgedeckt werden. Im Kernel selbst kann über die \textit{BlockID}, die Blockgröße und die \textit{ThreadID} bestimmt werden, für welchen Bildpunkt der Thread ausgeführt wird. Um Fehler bei den am äußersten Rand gelegenen Blöcken zu vermeiden, wird im Kernel abgefragt, ob der Thread noch einem Bildpunkt zugeordnet ist oder dieser außerhalb des Bildes liegt.
 Bis auf die aufgrund der syntaxspezifischen Unterschiede notwendigen Änderungen waren keine weiteren Anpassungen des Algorithmus an die parallele Verarbeitung notwendig.
 
 \SubSection{Parallelisierung über TCP/IP}
 
-\textbf{Netzwerkkommunikation}
-
+\paragraph{Netzwerkkommunikation}
 Bei Sockets handelt es sich um ein vom Betriebssytem bereitgestelltes Objekt, welche als Kommunikationsendpunkte betrachtet werden können. Durch diese Socktes können Daten empfangen und versendet werden, wobei verschiedene Techniken zur Übermittlung auf der Transportschicht verwendet werden können.
 Ein bekanntes und im Zuge dieser Arbeit verwendetes Modell nutzt TCP/IP zur Kommunikation. Dabei sorgt das Transmission Control Protocol für eine zuverlässige Übertragung der Daten auf Basis vom Internet Protocol (IP). Die Übermittlung der Pakete ist dabei garantiert. Sollte ein Fehler auftreten, so erhält der Sender eine Fehlermeldung und kann die Daten erneut senden. Grundsätzlich entspricht die Reihenfolge der eingehenden Pakete der Sendereihenfolge.
 Die Verbindung zwischen zwei Kommunikationspartnern wird bei diesem Mechanismus durch die IP-Adressen und eine gemeinsame Portnummer hergestellt.
@@ -151,8 +143,7 @@ Die Verbindung zwischen zwei Kommunikationspartnern wird bei diesem Mechanismus 
 	\captionof{figure}[Parallelisierung]{Kommunikationschema von TCP/IP}
 	\label{fig:gpu}
 \end{figure}
-
-\textbf{Client-Server Anwendung}
+\paragraph{Client-Server Anwendung}
 
 Die Berechnung der Disparität kann für horizontale Bildabschnitte unabhängig voneinander erfolgen und lässt sich daher auf mehrere Server verteilen. Zu beachten ist hierbei der obere und untere Randbereich der einzelnen Bildabschnitte, der für die Höhe der verwendeten Bildmatrix ausreichend groß sein muss, da andernfalls die am Rand gelegenen Zeilen nicht ausgewertet werden.
 
